@@ -246,7 +246,7 @@ def main():
     signal.signal(signal.SIGTERM, signal_handler)
     
     # Initialize components
-    scanner = FileScanner(config.video_extensions, config.suffix)
+    scanner = FileScanner(config.video_extensions, config.suffix, config.output_format)
     converter = VideoConverter(
         config.video_codec,
         config.audio_codec,

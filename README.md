@@ -78,6 +78,9 @@ Automated video conversion tool that continuously monitors network-mounted folde
    # Audio codec (aac)
    AUDIO_CODEC=aac
    
+   # Output container format (mp4, mkv, avi, etc.)
+   OUTPUT_FORMAT=mp4
+   
    # CPU threshold percentage (pause if exceeded)
    CPU_THRESHOLD=80
    
@@ -98,6 +101,7 @@ Automated video conversion tool that continuously monitors network-mounted folde
 
 - **MOVIE_FOLDERS**: Comma-separated list of folders to monitor. Can be network-mapped drives or local. On Windows, use forward slashes (e.g., `C:/Videos`) or escaped backslashes (e.g., `C:\\Videos`).
 - **MAX_ENCODES**: Number of videos to encode simultaneously. Set based on your system's capabilities.
+- **OUTPUT_FORMAT**: Container format for output files (e.g., `mp4`, `mkv`, `avi`). MP4 is recommended for best compatibility.
 - **MAX_RESOLUTION**: Cap video resolution at this height. Videos higher than this will be downscaled.
 - **CPU_THRESHOLD**: If CPU usage exceeds this %, pause starting new encodes.
 - **GPU_THRESHOLD**: If GPU usage exceeds this %, pause starting new encodes (requires NVIDIA GPU with drivers on Windows/Linux).
@@ -168,9 +172,9 @@ This saves significant time and preserves quality where possible.
 ## File Naming
 
 **Input**: `Movie Title (2023).mkv`  
-**Output**: `Movie Title (2023)-PengyStream.mkv`
+**Output**: `Movie Title (2023)-PengyStream.mp4` (or your configured OUTPUT_FORMAT)
 
-The converted file is saved in the same directory as the original.
+The converted file is saved in the same directory as the original with the configured output format.
 
 ## Logging
 

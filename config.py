@@ -26,6 +26,7 @@ class Config:
         self.max_encodes = int(os.getenv('MAX_ENCODES', '2'))
         self.video_codec = os.getenv('VIDEO_CODEC', 'h264')
         self.audio_codec = os.getenv('AUDIO_CODEC', 'aac')
+        self.output_format = os.getenv('OUTPUT_FORMAT', 'mp4').lower()
         
         # Parse resolution (e.g., "1440p" -> 1440)
         max_res_str = os.getenv('MAX_RESOLUTION', '1440p')
@@ -83,6 +84,7 @@ class Config:
             f"  Max Encodes: {self.max_encodes}\n"
             f"  Video: {self.video_codec} @ {self.max_resolution}p\n"
             f"  Audio: {self.audio_codec}\n"
+            f"  Output Format: {self.output_format}\n"
             f"  CPU Threshold: {self.cpu_threshold}%\n"
             f"  GPU Threshold: {self.gpu_threshold}%\n"
             f"  Copy Compatible: {self.copy_if_compatible}\n"

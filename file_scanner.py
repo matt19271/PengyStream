@@ -12,16 +12,18 @@ logger = logging.getLogger(__name__)
 class FileScanner:
     """Scan and filter video files for processing."""
     
-    def __init__(self, video_extensions: Set[str], suffix: str):
+    def __init__(self, video_extensions: Set[str], suffix: str, output_format: str = 'mp4'):
         """
         Initialize file scanner.
         
         Args:
             video_extensions: Set of valid video file extensions (e.g., {'.mp4', '.mkv'})
             suffix: Suffix to identify already-processed files (e.g., '-PengyStream')
+            output_format: Output container format (e.g., 'mp4', 'mkv')
         """
         self.video_extensions = video_extensions
         self.suffix = suffix
+        self.output_format = output_format if output_format.startswith('.') else f'.{output_format}'
     
     def is_video_file(self, path: Path) -> bool:
         """
@@ -59,22 +61,29 @@ class FileScanner:
             Path for the converted file with -PengyStream suffix
         """
         stem = input_path.stem
-        ext = input_path.suffix
-        new_name = f"{stem}{self.suffix}{ext}"
+        new_name = f"{stem}{self.suffix}{self.output_format}"
         return input_path.parent / new_name
     
     def has_output_file(self, input_path: Path) -> bool:
         """
         Check if output file already exists.
         
+        Checks for any file with -PengyStream suffix, regardless of extension.
+        This allows for different output formats over time.
+        
         Args:
             input_path: Original video file path
             
         Returns:
-            True if corresponding PengyStream file exists
+            True if any corresponding PengyStream file exists
         """
-        output_path = self.get_output_path(input_path)
-        return output_path.exists()
+        stem = input_path.stem
+        parent = input_path.parent
+        pattern = f"{stem}{self.suffix}.*"
+        
+        # Check if any file matches the pattern
+        matching_files = list(parent.glob(pattern))
+        return len(matching_files) > 0
     
     def is_file_stable(self, path: Path, wait_time: int = 5) -> bool:
         """
